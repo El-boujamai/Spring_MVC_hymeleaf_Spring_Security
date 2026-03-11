@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,8 +19,10 @@ public class ProductController {
         List<Product> products = productRepsitory.findAll();
         model.addAttribute("productList",products);
         return "products";}
+    @GetMapping("/delete")
+    public String delete(@RequestParam(name ="id")Long id ){
+      productRepsitory.deleteById(id);
+        return "redirect:/index";
+    }
 
-//    public ProductController(ProductRepsitory productRepsitory) {
-//        this.productRepsitory = productRepsitory;
-//    }
 }
