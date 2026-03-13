@@ -19,6 +19,13 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductRepsitory productRepsitory;
+    @GetMapping("/user/index")
+    @PreAuthorize("hasRole('USER')")
+    public String index(Model model) {
+        List<Product> products = productRepsitory.findAll();
+        model.addAttribute("productList", products);
+        return "products";
+    }
 
     @GetMapping("/")
     public String home() {
@@ -36,11 +43,7 @@ public class ProductController {
         model.addAttribute("product", new Product());
         return "new-product";
     }
-    @GetMapping("/index")
-    public String  index(Model model){
-        List<Product> products = productRepsitory.findAll();
-        model.addAttribute("productList",products);
-        return "products";}
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/saveProduct")

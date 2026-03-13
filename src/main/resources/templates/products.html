@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="layout"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+>
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
@@ -20,16 +21,17 @@
         <tbody>
         <tr th:each="p:${productList}">
             <td th:text="${p.id}"></td>
-            <td th:text="${p.Name}"></td>
-            <td th:text="${p.Price}"></td>
-            <td th:text="${p.Quantity}"></td>
-            <td>
-                <a class="btn btn-danger" onclick="return confirm('Voulez vous supprimer ?')" th:href="@{/delete(id=${p.id})}">Delete</a>
+            <td th:text="${p.name}"></td>
+            <td th:text="${p.price}"></td>
+            <td th:text="${p.quantity}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <form method="post" th:action="@{/admin/delete(id=${p.id})}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </td>
-
         </tr>
         </tbody>
-        </table>
+    </table>
 </div>
 </body>
 </html>
